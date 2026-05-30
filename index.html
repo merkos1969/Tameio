@@ -1,164 +1,74 @@
+
 <!DOCTYPE html>
 <html lang="el">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ΠΟΥΕΦ - Ηλεκτρονικό Βιβλίο Ταμείου</title>
+<title>ΠΟΥΕΦ - Ταμείο V2</title>
 <style>
-body{
-font-family:Arial,sans-serif;
-background:#f3f4f6;
-margin:0;
-padding:0;
-}
-header{
-background:#111827;
-color:white;
-padding:20px;
-text-align:center;
-}
-.container{
-padding:20px;
-max-width:1200px;
-margin:auto;
-}
-.cards{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:15px;
-margin-bottom:30px;
-}
-.card{
-background:white;
-padding:20px;
-border-radius:20px;
-box-shadow:0 4px 10px rgba(0,0,0,0.1);
-}
-.card h3{
-margin:0;
-font-size:16px;
-color:#6b7280;
-}
-.card p{
-font-size:28px;
-font-weight:bold;
-}
-.section{
-background:white;
-padding:20px;
-border-radius:20px;
-box-shadow:0 4px 10px rgba(0,0,0,0.1);
-margin-bottom:25px;
-}
-input,select{
-width:100%;
-padding:12px;
-margin-top:10px;
-border-radius:10px;
-border:1px solid #d1d5db;
-}
-button{
-background:#111827;
-color:white;
-padding:12px 20px;
-border:none;
-border-radius:10px;
-margin-top:15px;
-cursor:pointer;
-}
-table{
-width:100%;
-border-collapse:collapse;
-margin-top:15px;
-}
-th,td{
-padding:12px;
-border-bottom:1px solid #e5e7eb;
-text-align:left;
-}
-.login{
-max-width:400px;
-margin:80px auto;
-background:white;
-padding:30px;
-border-radius:20px;
-box-shadow:0 4px 10px rgba(0,0,0,0.1);
-}
-.hidden{
-display:none;
-}
+body{font-family:Arial;background:#f3f4f6;margin:0}
+header{background:#111827;color:#fff;padding:20px;text-align:center}
+.container{max-width:1200px;margin:auto;padding:20px}
+.card,.section{background:#fff;border-radius:20px;padding:20px;box-shadow:0 2px 10px rgba(0,0,0,.1);margin-bottom:20px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px}
+input,select,button{width:100%;padding:12px;border-radius:10px;margin-top:10px}
+button{background:#111827;color:#fff;border:none;cursor:pointer}
+table{width:100%;border-collapse:collapse}
+th,td{padding:10px;border-bottom:1px solid #ddd}
+.login{max-width:400px;margin:80px auto;background:#fff;padding:30px;border-radius:20px}
+.hidden{display:none}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.actions button{width:auto}
 </style>
 </head>
 <body>
 
 <div id="loginPage" class="login">
 <h2>Είσοδος ΠΟΥΕΦ</h2>
-<input type="password" id="password" placeholder="Κωδικός πρόσβασης">
+<input type="password" id="password" placeholder="Κωδικός">
 <button onclick="login()">Είσοδος</button>
 </div>
 
 <div id="app" class="hidden">
+
 <header>
 <h1>ΠΟΥΕΦ - Ηλεκτρονικό Βιβλίο Ταμείου</h1>
 </header>
 
 <div class="container">
 
-<div class="cards">
-<div class="card">
-<h3>Υπόλοιπο Τράπεζας</h3>
-<p id="bankBalance">71.477,52 €</p>
+<div class="section">
+<h2>Ρυθμίσεις Υπολοίπου</h2>
+<input type="number" id="initialBalance" value="71477.52">
+<button onclick="saveBalance()">Αποθήκευση Υπολοίπου</button>
 </div>
 
+<div class="cards">
 <div class="card">
-<h3>Υπόλοιπο Ταμείου</h3>
-<p>0,00 €</p>
+<h3>Αρχικό Υπόλοιπο</h3>
+<p id="balanceText">71.477,52 €</p>
 </div>
 
 <div class="card">
 <h3>Συνολικά Έσοδα</h3>
-<p id="incomeTotal">0,00 €</p>
+<p id="incomeTotal">0 €</p>
 </div>
 
 <div class="card">
 <h3>Συνολικά Έξοδα</h3>
-<p id="expenseTotal">0,00 €</p>
+<p id="expenseTotal">0 €</p>
 </div>
 </div>
 
 <div class="section">
-<h2>Νέο Έσοδο</h2>
+<h2>Ετήσιες Αναφορές</h2>
 
-<input type="date" id="incomeDate">
-<input type="text" id="incomeDesc" placeholder="Περιγραφή">
-<input type="number" id="incomeAmount" placeholder="Ποσό">
-
-<button onclick="addIncome()">Καταχώρηση Εσόδου</button>
+<div class="actions">
+<button onclick="window.print()">Εκτύπωση PDF</button>
+<button onclick="exportExcel()">Εξαγωγή Excel</button>
 </div>
 
-<div class="section">
-<h2>Νέο Έξοδο</h2>
-
-<input type="date" id="expenseDate">
-
-<select id="expenseCategory">
-<option>Συνεδριάσεις - Μετακινήσεις - Διαμονές Δ.Σ.</option>
-<option>Επισκέψεις Δ.Σ. σε φορείς</option>
-<option>Νομικός Σύμβουλος</option>
-<option>Τηλέφωνα - Γραφείο - Αναλώσιμα</option>
-<option>Ταχυδρομείο - Courier</option>
-<option>Ελεγκτική Επιτροπή - Συνέδριο</option>
-<option>Λογιστής</option>
-<option>Ιστοσελίδα - Εφαρμογές</option>
-<option>ΑΔΕΔΥ</option>
-<option>Τραπεζικά Έξοδα</option>
-<option>Μη Προϋπολογισμένες Δαπάνες</option>
-</select>
-
-<input type="text" id="expenseDesc" placeholder="Περιγραφή">
-<input type="number" id="expenseAmount" placeholder="Ποσό">
-
-<button onclick="addExpense()">Καταχώρηση Εξόδου</button>
+<p>Οι ετήσιες αναφορές θα εμφανίζονται αυτόματα εδώ.</p>
 </div>
 
 <div class="section">
@@ -169,7 +79,6 @@ display:none;
 <tr>
 <th>Ημερομηνία</th>
 <th>Περιγραφή</th>
-<th>Κατηγορία</th>
 <th>Τύπος</th>
 <th>Ποσό</th>
 </tr>
@@ -179,81 +88,51 @@ display:none;
 <tr>
 <td>01/01/2026</td>
 <td>Υπόλοιπο προηγούμενου έτους</td>
-<td>Μεταφορά</td>
 <td>Έσοδο</td>
 <td>71.477,52 €</td>
 </tr>
 </tbody>
 </table>
+
 </div>
 
 </div>
 </div>
 
 <script>
-let totalIncome = 0;
-let totalExpense = 0;
-
 function login(){
-const password = document.getElementById("password").value;
+const p=document.getElementById('password').value;
 
-if(password === "POUEF2026"){
-document.getElementById("loginPage").classList.add("hidden");
-document.getElementById("app").classList.remove("hidden");
+if(p==="POUEF2026"){
+document.getElementById('loginPage').classList.add('hidden');
+document.getElementById('app').classList.remove('hidden');
 }else{
-alert("Λάθος κωδικός");
+alert('Λάθος κωδικός');
 }
 }
 
-function addIncome(){
-const date = document.getElementById("incomeDate").value;
-const desc = document.getElementById("incomeDesc").value;
-const amount = parseFloat(document.getElementById("incomeAmount").value);
+function saveBalance(){
+const val=parseFloat(document.getElementById('initialBalance').value || 0);
 
-if(!date || !desc || !amount){
-alert("Συμπλήρωσε όλα τα πεδία");
-return;
+document.getElementById('balanceText').innerText=
+val.toLocaleString('el-GR') + ' €';
+
+localStorage.setItem('pouefBalance',val);
+alert('Το υπόλοιπο ενημερώθηκε');
 }
 
-totalIncome += amount;
+window.onload=function(){
+const saved=localStorage.getItem('pouefBalance');
 
-document.getElementById("incomeTotal").innerText = totalIncome.toLocaleString('el-GR') + " €";
-
-addRow(date, desc, "Έσοδο", "Έσοδο", amount);
+if(saved){
+document.getElementById('initialBalance').value=saved;
+document.getElementById('balanceText').innerText=
+parseFloat(saved).toLocaleString('el-GR') + ' €';
+}
 }
 
-function addExpense(){
-const date = document.getElementById("expenseDate").value;
-const category = document.getElementById("expenseCategory").value;
-const desc = document.getElementById("expenseDesc").value;
-const amount = parseFloat(document.getElementById("expenseAmount").value);
-
-if(!date || !desc || !amount){
-alert("Συμπλήρωσε όλα τα πεδία");
-return;
-}
-
-totalExpense += amount;
-
-document.getElementById("expenseTotal").innerText = totalExpense.toLocaleString('el-GR') + " €";
-
-addRow(date, desc, category, "Έξοδο", amount);
-}
-
-function addRow(date, desc, category, type, amount){
-const table = document.getElementById("tableBody");
-
-const row = `
-<tr>
-<td>${date}</td>
-<td>${desc}</td>
-<td>${category}</td>
-<td>${type}</td>
-<td>${amount.toLocaleString('el-GR')} €</td>
-</tr>
-`;
-
-table.innerHTML += row;
+function exportExcel(){
+alert('Η εξαγωγή Excel θα προστεθεί στην επόμενη έκδοση.');
 }
 </script>
 
