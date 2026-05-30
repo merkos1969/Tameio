@@ -1,1 +1,413 @@
-<!DOCTYPE html><html lang='el'><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1.0'><title>ΠΟΥΕΦ</title></head><body><h1>ΠΟΥΕΦ - Πλήρης Έκδοση V3</h1><p>Η εφαρμογή περιλαμβάνει έσοδα, έξοδα, παραστατικά και PDF.</p></body></html>
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ΠΟΥΕΦ - Ηλεκτρονικό Βιβλίο Ταμείου</title>
+<style>
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#eef2f7;
+color:#1f2937;
+}
+header{
+background:linear-gradient(135deg,#0f172a,#1e3a8a);
+color:white;
+padding:20px;
+text-align:center;
+box-shadow:0 2px 10px rgba(0,0,0,.2);
+}
+.container{
+max-width:1300px;
+margin:auto;
+padding:20px;
+}
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
+margin-bottom:20px;
+}
+.card{
+padding:20px;
+border-radius:20px;
+color:white;
+box-shadow:0 4px 12px rgba(0,0,0,.15);
+}
+.blue{background:#2563eb;}
+.green{background:#16a34a;}
+.red{background:#dc2626;}
+.gold{background:#b45309;}
+
+.section{
+background:white;
+padding:20px;
+border-radius:20px;
+margin-bottom:20px;
+box-shadow:0 4px 10px rgba(0,0,0,.08);
+}
+.section h2{
+margin-top:0;
+color:#0f172a;
+}
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+}
+@media(max-width:900px){
+.grid{grid-template-columns:1fr;}
+}
+input,select,button{
+width:100%;
+padding:12px;
+margin-top:10px;
+border-radius:10px;
+border:1px solid #cbd5e1;
+box-sizing:border-box;
+}
+button{
+background:#1e3a8a;
+color:white;
+font-weight:bold;
+border:none;
+cursor:pointer;
+}
+button:hover{
+background:#1d4ed8;
+}
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:15px;
+}
+th{
+background:#1e3a8a;
+color:white;
+}
+th,td{
+padding:10px;
+border-bottom:1px solid #e5e7eb;
+text-align:left;
+font-size:14px;
+}
+img.preview{
+max-width:80px;
+border-radius:10px;
+}
+.toolbar{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
+.toolbar button{
+width:auto;
+}
+.footer{
+text-align:center;
+padding:20px;
+color:#64748b;
+}
+</style>
+</head>
+<body>
+
+<header>
+<h1>ΠΟΥΕΦ - Ηλεκτρονικό Βιβλίο Ταμείου</h1>
+<p>Οικονομική Διαχείριση Ομοσπονδίας</p>
+</header>
+
+<div class="container">
+
+<div class="section">
+<h2>Ρυθμίσεις Υπολοίπου</h2>
+<input type="number" id="initialBalance" value="71477.52">
+<button onclick="saveInitial()">Αποθήκευση Αρχικού Υπολοίπου</button>
+</div>
+
+<div class="cards">
+<div class="card blue">
+<h3>Αρχικό Υπόλοιπο</h3>
+<h2 id="initialCard">71.477,52 €</h2>
+</div>
+
+<div class="card green">
+<h3>Συνολικά Έσοδα</h3>
+<h2 id="incomeCard">0 €</h2>
+</div>
+
+<div class="card red">
+<h3>Συνολικά Έξοδα</h3>
+<h2 id="expenseCard">0 €</h2>
+</div>
+
+<div class="card gold">
+<h3>Τρέχον Υπόλοιπο</h3>
+<h2 id="currentCard">71.477,52 €</h2>
+</div>
+</div>
+
+<div class="grid">
+
+<div class="section">
+<h2>Νέο Έσοδο</h2>
+
+<input type="date" id="incomeDate">
+<input type="text" id="incomeDesc" placeholder="Περιγραφή">
+<input type="number" id="incomeAmount" placeholder="Ποσό">
+
+<button onclick="addIncome()">Καταχώρηση Εσόδου</button>
+</div>
+
+<div class="section">
+<h2>Νέο Έξοδο</h2>
+
+<input type="date" id="expenseDate">
+
+<select id="expenseCategory">
+<option>Συνεδριάσεις - Μετακινήσεις - Διαμονές Δ.Σ.</option>
+<option>Επισκέψεις σε φορείς και καταστήματα</option>
+<option>Νομικός Σύμβουλος</option>
+<option>Τηλέφωνα - Γραφείο - Αναλώσιμα</option>
+<option>Ταχυδρομείο - Courier</option>
+<option>Ελεγκτική Επιτροπή - Συνέδριο</option>
+<option>Λογιστής</option>
+<option>Ιστοσελίδα - Εφαρμογές</option>
+<option>ΑΔΕΔΥ</option>
+<option>Τραπεζικά Έξοδα</option>
+<option>Μη Προϋπολογισμένες Δαπάνες</option>
+</select>
+
+<input type="text" id="expenseDesc" placeholder="Περιγραφή">
+<input type="number" id="expenseAmount" placeholder="Ποσό">
+
+<label>Παραστατικό με φωτογραφία</label>
+<input type="file" id="expenseImage" accept="image/*">
+
+<button onclick="addExpense()">Καταχώρηση Εξόδου</button>
+</div>
+
+</div>
+
+<div class="section">
+<h2>Αναφορές & Εξαγωγές</h2>
+
+<div class="toolbar">
+<button onclick="window.print()">Εκτύπωση PDF</button>
+<button onclick="exportJSON()">Backup JSON</button>
+<button onclick="clearAll()">Καθαρισμός Δεδομένων</button>
+</div>
+
+<p>Η εκτύπωση PDF λειτουργεί από κινητό και υπολογιστή.</p>
+</div>
+
+<div class="section">
+<h2>Βιβλίο Ταμείου</h2>
+
+<table>
+<thead>
+<tr>
+<th>Ημερομηνία</th>
+<th>Περιγραφή</th>
+<th>Κατηγορία</th>
+<th>Τύπος</th>
+<th>Ποσό</th>
+<th>Παραστατικό</th>
+</tr>
+</thead>
+
+<tbody id="tableBody"></tbody>
+
+</table>
+</div>
+
+</div>
+
+<div class="footer">
+ΠΟΥΕΦ - Ηλεκτρονικό Βιβλίο Ταμείου
+</div>
+
+<script>
+
+let transactions = [];
+
+function euro(n){
+return Number(n).toLocaleString('el-GR') + ' €';
+}
+
+function saveInitial(){
+const val = parseFloat(document.getElementById('initialBalance').value || 0);
+localStorage.setItem('pouefInitial', val);
+updateCards();
+alert('Το αρχικό υπόλοιπο αποθηκεύτηκε');
+}
+
+function addIncome(){
+
+const date = document.getElementById('incomeDate').value;
+const desc = document.getElementById('incomeDesc').value;
+const amount = parseFloat(document.getElementById('incomeAmount').value);
+
+if(!date || !desc || !amount){
+alert('Συμπλήρωσε όλα τα πεδία');
+return;
+}
+
+transactions.push({
+type:'Έσοδο',
+date,
+description:desc,
+category:'Έσοδο',
+amount,
+image:null
+});
+
+saveData();
+
+document.getElementById('incomeDate').value='';
+document.getElementById('incomeDesc').value='';
+document.getElementById('incomeAmount').value='';
+}
+
+function addExpense(){
+
+const date = document.getElementById('expenseDate').value;
+const category = document.getElementById('expenseCategory').value;
+const desc = document.getElementById('expenseDesc').value;
+const amount = parseFloat(document.getElementById('expenseAmount').value);
+const fileInput = document.getElementById('expenseImage');
+
+if(!date || !desc || !amount){
+alert('Συμπλήρωσε όλα τα πεδία');
+return;
+}
+
+const saveExpense = (imageData) => {
+transactions.push({
+type:'Έξοδο',
+date,
+description:desc,
+category,
+amount,
+image:imageData
+});
+
+saveData();
+
+document.getElementById('expenseDate').value='';
+document.getElementById('expenseDesc').value='';
+document.getElementById('expenseAmount').value='';
+document.getElementById('expenseImage').value='';
+};
+
+if(fileInput.files[0]){
+const reader = new FileReader();
+reader.onload = e => saveExpense(e.target.result);
+reader.readAsDataURL(fileInput.files[0]);
+}else{
+saveExpense(null);
+}
+}
+
+function saveData(){
+localStorage.setItem('pouefTransactions', JSON.stringify(transactions));
+renderTable();
+updateCards();
+}
+
+function renderTable(){
+
+const table = document.getElementById('tableBody');
+table.innerHTML = '';
+
+transactions.forEach(t => {
+
+const row = document.createElement('tr');
+
+row.innerHTML = `
+<td>${t.date}</td>
+<td>${t.description}</td>
+<td>${t.category}</td>
+<td>${t.type}</td>
+<td>${euro(t.amount)}</td>
+<td>${t.image ? `<img class="preview" src="${t.image}">` : '-'}</td>
+`;
+
+table.appendChild(row);
+
+});
+
+}
+
+function updateCards(){
+
+const initial = parseFloat(localStorage.getItem('pouefInitial') || 71477.52);
+
+document.getElementById('initialCard').innerText = euro(initial);
+
+const income = transactions
+.filter(t => t.type === 'Έσοδο')
+.reduce((s,t)=>s+Number(t.amount),0);
+
+const expenses = transactions
+.filter(t => t.type === 'Έξοδο')
+.reduce((s,t)=>s+Number(t.amount),0);
+
+const current = initial + income - expenses;
+
+document.getElementById('incomeCard').innerText = euro(income);
+document.getElementById('expenseCard').innerText = euro(expenses);
+document.getElementById('currentCard').innerText = euro(current);
+}
+
+function exportJSON(){
+
+const blob = new Blob(
+[JSON.stringify(transactions,null,2)],
+{type:'application/json'}
+);
+
+const a = document.createElement('a');
+a.href = URL.createObjectURL(blob);
+a.download = 'pouef-backup.json';
+a.click();
+}
+
+function clearAll(){
+
+if(confirm('Να διαγραφούν όλα τα δεδομένα;')){
+
+localStorage.removeItem('pouefTransactions');
+
+transactions = [];
+
+renderTable();
+updateCards();
+}
+}
+
+function loadData(){
+
+const saved = localStorage.getItem('pouefTransactions');
+
+if(saved){
+transactions = JSON.parse(saved);
+}
+
+const initial = localStorage.getItem('pouefInitial');
+
+if(initial){
+document.getElementById('initialBalance').value = initial;
+}
+
+renderTable();
+updateCards();
+}
+
+loadData();
+
+</script>
+
+</body>
+</html>
