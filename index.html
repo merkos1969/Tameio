@@ -1,25 +1,39 @@
+
 <!DOCTYPE html>
 <html lang="el">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ΠΟΥΕΦ - Ταμείο</title>
+<title>ΠΟΥΕΦ</title>
 <style>
 body{font-family:Arial;background:#eef2f7;margin:0}
-header{background:#0f172a;color:#fff;padding:20px;text-align:center}
+header{background:#1e3a8a;color:white;padding:25px;text-align:center}
 .container{max-width:1200px;margin:auto;padding:20px}
+.card{background:white;padding:20px;border-radius:18px;margin-bottom:20px}
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px}
-.card{padding:20px;border-radius:20px;color:#fff}
-.blue{background:#2563eb}
-.green{background:#16a34a}
-.red{background:#dc2626}
-.gold{background:#b45309}
-.section{background:#fff;padding:20px;border-radius:20px;margin-top:20px}
-input,select,button{width:100%;padding:12px;margin-top:10px;border-radius:10px}
-button{background:#1e3a8a;color:#fff;border:none}
+.blue{background:#2563eb;color:white}
+.green{background:#16a34a;color:white}
+.red{background:#dc2626;color:white}
+.gold{background:#b45309;color:white}
+button{padding:12px;border:none;border-radius:10px;background:#1e3a8a;color:white;width:100%}
+table{width:100%;border-collapse:collapse}
+th,td{padding:10px;border-bottom:1px solid #ddd}
+th{background:#1e3a8a;color:white}
+.watermark{
+position:fixed;
+top:45%;
+left:50%;
+transform:translate(-50%,-50%);
+font-size:120px;
+opacity:.05;
+font-weight:bold;
+pointer-events:none;
+}
 </style>
 </head>
 <body>
+
+<div class="watermark">ΠΟΥΕΦ</div>
 
 <header>
 <h1>ΠΟΥΕΦ - Ηλεκτρονικό Βιβλίο Ταμείου</h1>
@@ -28,73 +42,41 @@ button{background:#1e3a8a;color:#fff;border:none}
 <div class="container">
 
 <div class="cards">
-
-<div class="card blue">
-<h3>Υπόλοιπο Τράπεζας</h3>
-<h2 id="bankBalance">71.477,52 €</h2>
+<div class="card blue"><h3>Τράπεζα</h3><h2>71.477,52 €</h2></div>
+<div class="card green"><h3>Συνδρομές Μελών</h3><h2>0,00 €</h2></div>
+<div class="card red"><h3>Έξοδα</h3><h2>0,00 €</h2></div>
+<div class="card gold"><h3>Υπόλοιπο</h3><h2>71.477,52 €</h2></div>
 </div>
 
-<div class="card green">
-<h3>Συνδρομές Μελών</h3>
-<h2 id="memberIncome">0 €</h2>
-</div>
-
-<div class="card red">
-<h3>Συνολικά Έξοδα</h3>
-<h2 id="expenses">0 €</h2>
-</div>
-
-<div class="card gold">
-<h3>Τρέχον Υπόλοιπο</h3>
-<h2 id="current">71.477,52 €</h2>
-</div>
-
-</div>
-
-<div class="section">
-<h2>Καταχώρηση Εσόδου</h2>
-
-<select id="incomeCategory">
-<option>Συνδρομές Μελών</option>
-<option>Λοιπά Έσοδα</option>
-</select>
-
-<input type="date">
-<input type="text" placeholder="Περιγραφή">
-<input type="number" placeholder="Ποσό">
-
-<button>Αποθήκευση Εσόδου</button>
-</div>
-
-<div class="section">
-<h2>Καταχώρηση Εξόδου</h2>
-
-<select>
-<option>Συνεδριάσεις - Μετακινήσεις - Διαμονές Δ.Σ.</option>
-<option>Νομικός Σύμβουλος</option>
-<option>ΑΔΕΔΥ</option>
-<option>Τραπεζικά Έξοδα</option>
-</select>
-
-<input type="date">
-<input type="text" placeholder="Περιγραφή">
-<input type="number" placeholder="Ποσό">
-
-<label>Παραστατικό με φωτογραφία</label>
-<input type="file" accept="image/*">
-
-<button>Αποθήκευση Εξόδου</button>
-</div>
-
-<div class="section">
-<h2>Αναφορές</h2>
-
+<div class="card">
+<h2>Μηνιαία PDF</h2>
 <button onclick="window.print()">Εκτύπωση PDF</button>
+</div>
 
-<p>Υποστήριξη ετήσιου απολογισμού και προϋπολογισμού.</p>
+<div class="card">
+<h2>Ετήσιος Απολογισμός Συνεδρίου</h2>
+<table>
+<tr><th>Κατηγορία</th><th>Ποσό</th></tr>
+<tr><td>Συνδρομές Μελών</td><td>0,00 €</td></tr>
+<tr><td>Έξοδα</td><td>0,00 €</td></tr>
+<tr><td>Υπόλοιπο</td><td>71.477,52 €</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h2>Προϋπολογισμός</h2>
+<table>
+<tr><th>Έσοδα</th><th>Έξοδα</th></tr>
+<tr><td>Συνδρομές</td><td>Δαπάνες ΔΣ</td></tr>
+<tr><td>Τόκοι</td><td>Λειτουργικά</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h2>Παραστατικά</h2>
+<input type="file" accept="image/*,.pdf">
 </div>
 
 </div>
-
 </body>
 </html>
