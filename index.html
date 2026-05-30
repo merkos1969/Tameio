@@ -1,34 +1,35 @@
-
 <!DOCTYPE html>
 <html lang="el">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ΠΟΥΕΦ</title>
+<title>ΠΟΥΕΦ - Ταμείο</title>
 <style>
-body{font-family:Arial;background:#eef2f7;margin:0}
-header{background:#1e3a8a;color:white;padding:25px;text-align:center}
-.container{max-width:1200px;margin:auto;padding:20px}
-.card{background:white;padding:20px;border-radius:18px;margin-bottom:20px}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px}
-.blue{background:#2563eb;color:white}
-.green{background:#16a34a;color:white}
-.red{background:#dc2626;color:white}
-.gold{background:#b45309;color:white}
-button{padding:12px;border:none;border-radius:10px;background:#1e3a8a;color:white;width:100%}
-table{width:100%;border-collapse:collapse}
-th,td{padding:10px;border-bottom:1px solid #ddd}
+body{font-family:Arial;margin:0;background:#eef2f7}
+header{background:#0f172a;color:#fff;padding:20px;text-align:center}
+.container{max-width:1300px;margin:auto;padding:20px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px;margin-bottom:20px}
+.card{padding:20px;border-radius:18px;color:white}
+.blue{background:#2563eb}.yellow{background:#ca8a04}.green{background:#16a34a}.red{background:#dc2626}
+.section{background:white;padding:20px;border-radius:18px;margin-bottom:20px;box-shadow:0 2px 10px rgba(0,0,0,.1)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+input,select,button{width:100%;padding:12px;margin-top:10px;border-radius:10px;border:1px solid #ccc;box-sizing:border-box}
+button{background:#1e3a8a;color:white;border:none;font-weight:bold}
+table{width:100%;border-collapse:collapse;margin-top:15px}
+th,td{padding:10px;border-bottom:1px solid #ddd;font-size:14px}
 th{background:#1e3a8a;color:white}
 .watermark{
 position:fixed;
 top:45%;
 left:50%;
 transform:translate(-50%,-50%);
-font-size:120px;
-opacity:.05;
-font-weight:bold;
+font-size:140px;
+opacity:.04;
 pointer-events:none;
+font-weight:bold;
 }
+img{max-width:70px;border-radius:8px}
 </style>
 </head>
 <body>
@@ -42,41 +43,219 @@ pointer-events:none;
 <div class="container">
 
 <div class="cards">
-<div class="card blue"><h3>Τράπεζα</h3><h2>71.477,52 €</h2></div>
-<div class="card green"><h3>Συνδρομές Μελών</h3><h2>0,00 €</h2></div>
-<div class="card red"><h3>Έξοδα</h3><h2>0,00 €</h2></div>
-<div class="card gold"><h3>Υπόλοιπο</h3><h2>71.477,52 €</h2></div>
+<div class="card blue">
+<h3>Τραπεζικό Υπόλοιπο</h3>
+<h2 id="bankBalance">0,00 €</h2>
 </div>
 
-<div class="card">
-<h2>Μηνιαία PDF</h2>
-<button onclick="window.print()">Εκτύπωση PDF</button>
+<div class="card yellow">
+<h3>Ταμειακό Υπόλοιπο</h3>
+<h2 id="cashBalance">0,00 €</h2>
 </div>
 
-<div class="card">
+<div class="card green">
+<h3>Έσοδα</h3>
+<h2 id="incomeTotal">0,00 €</h2>
+</div>
+
+<div class="card red">
+<h3>Έξοδα</h3>
+<h2 id="expenseTotal">0,00 €</h2>
+</div>
+</div>
+
+<div class="grid">
+
+<div class="section">
+<h2>Καταχώρηση Εσόδου</h2>
+
+<select id="incomeCategory">
+<option>Συνδρομές Μελών</option>
+<option>Τόκοι Τράπεζας</option>
+<option>Λοιπά Έσοδα</option>
+<option>Μεταφορά Υπολοίπου</option>
+</select>
+
+<input type="date" id="incomeDate">
+<input type="text" id="incomeDesc" placeholder="Περιγραφή">
+<input type="number" id="incomeAmount" placeholder="Ποσό">
+
+<button onclick="addIncome()">Αποθήκευση Εσόδου</button>
+</div>
+
+<div class="section">
+<h2>Καταχώρηση Εξόδου</h2>
+
+<select id="expenseCategory">
+<option>Συνεδριάσεις - Μετακινήσεις - Διαμονές Δ.Σ.</option>
+<option>Επισκέψεις Δ.Σ. σε Σωματεία και Φορείς</option>
+<option>Νομικός Σύμβουλος - Δικαστήρια - Παράβολα</option>
+<option>Τηλέφωνα - Γραφείο - Αναλώσιμα</option>
+<option>Ταχυδρομείο - Courier</option>
+<option>Ελεγκτική Επιτροπή - Συνέδριο</option>
+<option>Λογιστής</option>
+<option>Ιστοσελίδα - Εφαρμογές</option>
+<option>ΑΔΕΔΥ</option>
+<option>Φόροι Τόκων - Προμήθειες Τραπεζών</option>
+<option>Μη Προϋπολογισμένες Δαπάνες</option>
+</select>
+
+<input type="date" id="expenseDate">
+<input type="text" id="expenseDesc" placeholder="Περιγραφή">
+<input type="number" id="expenseAmount" placeholder="Ποσό">
+<input type="file" id="expenseFile" accept="image/*">
+
+<button onclick="addExpense()">Αποθήκευση Εξόδου</button>
+</div>
+
+</div>
+
+<div class="section">
+<h2>Βιβλίο Ταμείου</h2>
+
+<button onclick="window.print()">Μηνιαίο PDF</button>
+
+<table>
+<thead>
+<tr>
+<th>Ημερομηνία</th>
+<th>Τύπος</th>
+<th>Κατηγορία</th>
+<th>Περιγραφή</th>
+<th>Ποσό</th>
+<th>Παραστατικό</th>
+</tr>
+</thead>
+
+<tbody id="tableBody"></tbody>
+</table>
+</div>
+
+<div class="section">
 <h2>Ετήσιος Απολογισμός Συνεδρίου</h2>
+
 <table>
-<tr><th>Κατηγορία</th><th>Ποσό</th></tr>
-<tr><td>Συνδρομές Μελών</td><td>0,00 €</td></tr>
-<tr><td>Έξοδα</td><td>0,00 €</td></tr>
-<tr><td>Υπόλοιπο</td><td>71.477,52 €</td></tr>
+<tr><th>Κατηγορία</th><th>Σύνολο</th></tr>
+<tr><td>Συνολικά Έσοδα</td><td id="reportIncome">0,00 €</td></tr>
+<tr><td>Συνολικά Έξοδα</td><td id="reportExpense">0,00 €</td></tr>
 </table>
+
 </div>
 
-<div class="card">
+<div class="section">
 <h2>Προϋπολογισμός</h2>
+
 <table>
-<tr><th>Έσοδα</th><th>Έξοδα</th></tr>
-<tr><td>Συνδρομές</td><td>Δαπάνες ΔΣ</td></tr>
-<tr><td>Τόκοι</td><td>Λειτουργικά</td></tr>
+<tr><th>Προβλεπόμενα Έσοδα</th><th>Προβλεπόμενα Έξοδα</th></tr>
+<tr><td>Συνδρομές Μελών</td><td>Δαπάνες Δ.Σ.</td></tr>
+<tr><td>Τόκοι Τράπεζας</td><td>Λειτουργικά Έξοδα</td></tr>
 </table>
-</div>
 
-<div class="card">
-<h2>Παραστατικά</h2>
-<input type="file" accept="image/*,.pdf">
 </div>
 
 </div>
+
+<script>
+let transactions = [];
+
+function euro(n){
+return Number(n).toLocaleString('el-GR') + ' €';
+}
+
+function saveData(){
+localStorage.setItem('pouefData',JSON.stringify(transactions));
+render();
+}
+
+function loadData(){
+const saved = localStorage.getItem('pouefData');
+if(saved){
+transactions = JSON.parse(saved);
+render();
+}
+}
+
+function addIncome(){
+const category=document.getElementById('incomeCategory').value;
+const date=document.getElementById('incomeDate').value;
+const desc=document.getElementById('incomeDesc').value;
+const amount=parseFloat(document.getElementById('incomeAmount').value);
+
+if(!date || !desc || !amount){alert('Συμπλήρωσε όλα τα πεδία');return;}
+
+transactions.push({
+type:'Έσοδο',
+category,date,desc,amount,image:null
+});
+
+saveData();
+}
+
+function addExpense(){
+const category=document.getElementById('expenseCategory').value;
+const date=document.getElementById('expenseDate').value;
+const desc=document.getElementById('expenseDesc').value;
+const amount=parseFloat(document.getElementById('expenseAmount').value);
+const file=document.getElementById('expenseFile').files[0];
+
+if(!date || !desc || !amount){alert('Συμπλήρωσε όλα τα πεδία');return;}
+
+if(file){
+const reader=new FileReader();
+reader.onload=function(e){
+transactions.push({
+type:'Έξοδο',
+category,date,desc,amount,image:e.target.result
+});
+saveData();
+}
+reader.readAsDataURL(file);
+}else{
+transactions.push({
+type:'Έξοδο',
+category,date,desc,amount,image:null
+});
+saveData();
+}
+}
+
+function render(){
+
+const table=document.getElementById('tableBody');
+table.innerHTML='';
+
+let income=0;
+let expense=0;
+
+transactions.forEach(t=>{
+
+if(t.type==='Έσοδο'){income += Number(t.amount);}
+if(t.type==='Έξοδο'){expense += Number(t.amount);}
+
+table.innerHTML += `
+<tr>
+<td>${t.date}</td>
+<td>${t.type}</td>
+<td>${t.category}</td>
+<td>${t.desc}</td>
+<td>${euro(t.amount)}</td>
+<td>${t.image ? `<img src="${t.image}">` : '-'}</td>
+</tr>
+`;
+
+});
+
+document.getElementById('incomeTotal').innerText=euro(income);
+document.getElementById('expenseTotal').innerText=euro(expense);
+document.getElementById('bankBalance').innerText=euro(income-expense);
+document.getElementById('cashBalance').innerText=euro(0);
+
+document.getElementById('reportIncome').innerText=euro(income);
+document.getElementById('reportExpense').innerText=euro(expense);
+}
+
+loadData();
+</script>
+
 </body>
 </html>
