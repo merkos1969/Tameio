@@ -3,55 +3,158 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ΠΟΥΕΦ V4</title>
+<title>ΠΟΥΕΦ V5</title>
 <style>
-body{font-family:Arial;margin:0;background:#eef2f7}
-header{background:#0f172a;color:#fff;padding:20px;text-align:center}
-.container{max-width:1200px;margin:auto;padding:15px}
-.section{background:#fff;padding:20px;border-radius:18px;margin-bottom:20px;box-shadow:0 2px 10px rgba(0,0,0,.1)}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px;margin-bottom:20px}
-.card{padding:20px;border-radius:18px;color:white}
-.blue{background:#2563eb}.yellow{background:#ca8a04}.green{background:#16a34a}.red{background:#dc2626}
-input,select,button{width:100%;padding:12px;margin-top:10px;border-radius:10px;border:1px solid #ccc;box-sizing:border-box}
-button{background:#1e3a8a;color:white;border:none;font-weight:bold}
-.table-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;margin-top:15px;min-width:700px}
-th,td{padding:10px;border-bottom:1px solid #ddd}
-th{background:#1e3a8a;color:white}
-.preview{width:70px;border-radius:8px;cursor:pointer}
+*{box-sizing:border-box}
+body{
+font-family:Arial;
+margin:0;
+background:#eef2f7;
+}
+header{
+background:#0f172a;
+color:white;
+padding:18px;
+text-align:center;
+}
+.container{
+max-width:1400px;
+margin:auto;
+padding:12px;
+}
+.section{
+background:white;
+padding:18px;
+border-radius:20px;
+margin-bottom:18px;
+box-shadow:0 2px 10px rgba(0,0,0,.08);
+width:100%;
+}
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:12px;
+margin-bottom:18px;
+}
+.card{
+padding:18px;
+border-radius:18px;
+color:white;
+}
+.blue{background:#2563eb}
+.yellow{background:#ca8a04}
+.green{background:#16a34a}
+.red{background:#dc2626}
+
+input,select,button{
+width:100%;
+padding:12px;
+margin-top:10px;
+border-radius:12px;
+border:1px solid #ccc;
+font-size:16px;
+}
+
+button{
+background:#1e3a8a;
+color:white;
+font-weight:bold;
+border:none;
+}
+
+.table-wrap{
+overflow-x:auto;
+width:100%;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+min-width:850px;
+}
+
+th,td{
+padding:10px;
+border-bottom:1px solid #ddd;
+text-align:left;
+font-size:14px;
+}
+
+th{
+background:#1e3a8a;
+color:white;
+}
+
+.preview{
+width:70px;
+border-radius:10px;
+cursor:pointer;
+}
+
 .modal{
 display:none;
 position:fixed;
 z-index:9999;
-left:0;top:0;
-width:100%;height:100%;
-background:rgba(0,0,0,.9);
+left:0;
+top:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.95);
 justify-content:center;
 align-items:center;
+padding:15px;
 }
-.modal img{
-max-width:95%;
-max-height:95%;
+
+.modal-content{
+max-width:100%;
+max-height:100%;
 border-radius:12px;
 }
+
 .close{
 position:absolute;
-top:20px;
-right:30px;
-font-size:40px;
+top:15px;
+right:25px;
+font-size:42px;
 color:white;
 cursor:pointer;
 }
+
 .watermark{
 position:fixed;
 top:45%;
 left:50%;
 transform:translate(-50%,-50%);
-font-size:140px;
+font-size:120px;
 opacity:.04;
 pointer-events:none;
 font-weight:bold;
 }
+
+@media(max-width:700px){
+
+body{
+font-size:14px;
+}
+
+.section{
+padding:14px;
+}
+
+.cards{
+grid-template-columns:1fr 1fr;
+}
+
+.card h2{
+font-size:20px;
+}
+
+table{
+min-width:700px;
+}
+
+}
+
 </style>
 </head>
 <body>
@@ -59,7 +162,7 @@ font-weight:bold;
 <div class="watermark">ΠΟΥΕΦ</div>
 
 <header>
-<h1>ΠΟΥΕΦ - Ηλεκτρονικό Βιβλίο Ταμείου V4</h1>
+<h1>ΠΟΥΕΦ - Ηλεκτρονικό Βιβλίο Ταμείου V5</h1>
 </header>
 
 <div class="container">
@@ -77,18 +180,33 @@ font-weight:bold;
 </div>
 
 <div class="cards">
-<div class="card blue"><h3>🏦 Τραπεζικό Υπόλοιπο</h3><h2 id="bankCard">0 €</h2></div>
-<div class="card yellow"><h3>💵 Ταμειακό Υπόλοιπο</h3><h2 id="cashCard">0 €</h2></div>
-<div class="card green"><h3>🟢 Έσοδα</h3><h2 id="incomeCard">0 €</h2></div>
-<div class="card red"><h3>🔴 Έξοδα</h3><h2 id="expenseCard">0 €</h2></div>
+<div class="card blue">
+<h3>🏦 Τραπεζικό</h3>
+<h2 id="bankCard">0 €</h2>
+</div>
+
+<div class="card yellow">
+<h3>💵 Ταμείο</h3>
+<h2 id="cashCard">0 €</h2>
+</div>
+
+<div class="card green">
+<h3>🟢 Έσοδα</h3>
+<h2 id="incomeCard">0 €</h2>
+</div>
+
+<div class="card red">
+<h3>🔴 Έξοδα</h3>
+<h2 id="expenseCard">0 €</h2>
+</div>
 </div>
 
 <div class="section">
 <h2>Καταχώρηση Εξόδου</h2>
 
 <select id="expenseCategory">
+<option>Ταχυδρομείο - Courier</option>
 <option>Λογιστής</option>
-<option>Courier</option>
 <option>ΑΔΕΔΥ</option>
 <option>Μετακινήσεις ΔΣ</option>
 </select>
@@ -103,8 +221,6 @@ font-weight:bold;
 
 <div class="section">
 <h2>📖 Βιβλίο Ταμείου</h2>
-
-<button onclick="window.print()">Μηνιαίο PDF</button>
 
 <div class="table-wrap">
 <table>
@@ -121,6 +237,7 @@ font-weight:bold;
 <tbody id="tableBody"></tbody>
 </table>
 </div>
+
 </div>
 
 <div class="section">
@@ -139,25 +256,27 @@ font-weight:bold;
 <tbody id="receiptBody"></tbody>
 </table>
 </div>
+
 </div>
 
 </div>
 
 <div class="modal" id="imageModal">
 <span class="close" onclick="closeModal()">&times;</span>
-<img id="modalImg">
+<img class="modal-content" id="modalImg">
 </div>
 
 <script>
-let transactions = JSON.parse(localStorage.getItem('transactionsV4') || '[]');
+
+let transactions = JSON.parse(localStorage.getItem('transactionsV5') || '[]');
 
 function euro(n){
 return Number(n).toLocaleString('el-GR') + ' €';
 }
 
 function saveBalances(){
-localStorage.setItem('bankBalanceV4', bankInput.value);
-localStorage.setItem('cashBalanceV4', cashInput.value);
+localStorage.setItem('bankBalanceV5', bankInput.value);
+localStorage.setItem('cashBalanceV5', cashInput.value);
 render();
 }
 
@@ -166,7 +285,7 @@ function addExpense(){
 const file = expenseFile.files[0];
 
 if(!file){
-alert('Βάλε παραστατικό');
+alert('Επίλεξε παραστατικό');
 return;
 }
 
@@ -183,38 +302,51 @@ amount:expenseAmount.value,
 image:e.target.result
 });
 
-localStorage.setItem('transactionsV4', JSON.stringify(transactions));
+localStorage.setItem('transactionsV5', JSON.stringify(transactions));
 
 render();
+
+alert('Καταχωρήθηκε');
 };
 
 reader.readAsDataURL(file);
 }
 
 function openModal(src){
-document.getElementById('imageModal').style.display='flex';
-document.getElementById('modalImg').src=src;
+
+const modal = document.getElementById('imageModal');
+const img = document.getElementById('modalImg');
+
+img.src = src;
+modal.style.display = 'flex';
 }
 
 function closeModal(){
-document.getElementById('imageModal').style.display='none';
+document.getElementById('imageModal').style.display = 'none';
+}
+
+window.onclick = function(event){
+const modal = document.getElementById('imageModal');
+if(event.target == modal){
+closeModal();
+}
 }
 
 function render(){
 
-transactions = JSON.parse(localStorage.getItem('transactionsV4') || '[]');
+transactions = JSON.parse(localStorage.getItem('transactionsV5') || '[]');
 
-const table=document.getElementById('tableBody');
-const receipts=document.getElementById('receiptBody');
+const table = document.getElementById('tableBody');
+const receipts = document.getElementById('receiptBody');
 
-table.innerHTML='';
-receipts.innerHTML='';
+table.innerHTML = '';
+receipts.innerHTML = '';
 
-let expenses=0;
+let expenses = 0;
 
-transactions.forEach((t,i)=>{
+transactions.forEach((t)=>{
 
-expenses += Number(t.amount||0);
+expenses += Number(t.amount || 0);
 
 table.innerHTML += `
 <tr>
@@ -223,7 +355,9 @@ table.innerHTML += `
 <td>${t.category}</td>
 <td>${t.desc}</td>
 <td>${euro(t.amount)}</td>
-<td><img class="preview" src="${t.image}" onclick="openModal('${t.image}')"></td>
+<td>
+<img class="preview" src="${t.image}" onclick='openModal(${JSON.stringify(t.image)})'>
+</td>
 </tr>`;
 
 receipts.innerHTML += `
@@ -231,20 +365,25 @@ receipts.innerHTML += `
 <td>${t.date}</td>
 <td>${t.category}</td>
 <td>${euro(t.amount)}</td>
-<td><button onclick="openModal('${t.image}')">Προβολή</button></td>
+<td>
+<button onclick='openModal(${JSON.stringify(t.image)})'>
+Προβολή
+</button>
+</td>
 </tr>`;
 });
 
-expenseCard.innerText=euro(expenses);
+expenseCard.innerText = euro(expenses);
 
-bankCard.innerText=euro(localStorage.getItem('bankBalanceV4') || 0);
-cashCard.innerText=euro(localStorage.getItem('cashBalanceV4') || 0);
+bankCard.innerText = euro(localStorage.getItem('bankBalanceV5') || 0);
+cashCard.innerText = euro(localStorage.getItem('cashBalanceV5') || 0);
 
-bankInput.value=localStorage.getItem('bankBalanceV4') || 0;
-cashInput.value=localStorage.getItem('cashBalanceV4') || 0;
+bankInput.value = localStorage.getItem('bankBalanceV5') || 0;
+cashInput.value = localStorage.getItem('cashBalanceV5') || 0;
 }
 
 render();
+
 </script>
 
 </body>
