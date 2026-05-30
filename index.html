@@ -1,189 +1,121 @@
-
 <!DOCTYPE html>
 <html lang="el">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ΠΟΥΕΦ V7</title>
+<title>ΠΟΥΕΦ - Οικονομική Διαχείριση V8</title>
 <style>
-body{font-family:Arial;margin:0;background:#eef2f7}
-header{background:#0f172a;color:white;padding:15px;text-align:center}
-.container{max-width:1000px;margin:auto;padding:10px}
-.card{background:white;border-radius:16px;padding:15px;margin-bottom:15px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-@media(max-width:700px){.grid{grid-template-columns:1fr}}
-input,select,button{width:100%;padding:12px;margin-top:8px;border-radius:10px;border:1px solid #ccc;box-sizing:border-box}
-button{background:#1e3a8a;color:white;font-weight:bold;border:none}
-.entry{background:#fff;border-radius:14px;padding:12px;margin-top:10px;border-left:5px solid #1e3a8a}
-.preview{width:90px;border-radius:10px;margin-top:10px;cursor:pointer}
-.modal{display:none;position:fixed;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,.92);justify-content:center;align-items:center;z-index:9999}
-.modal img{max-width:95%;max-height:95%}
-.close{position:absolute;top:20px;right:25px;color:white;font-size:40px;cursor:pointer}
-.watermark{position:fixed;top:45%;left:50%;transform:translate(-50%,-50%);font-size:100px;opacity:.03;pointer-events:none}
+:root{--blue:#0f172a;--accent:#1e40af;--green:#15803d;--red:#b91c1c;--bg:#eef2f7;--card:#fff;--muted:#64748b}
+*{box-sizing:border-box} body{font-family:Arial,Helvetica,sans-serif;margin:0;background:var(--bg);color:#111827}
+header{background:linear-gradient(135deg,#0f172a,#1e3a8a);color:white;padding:18px;text-align:center;position:sticky;top:0;z-index:20;box-shadow:0 3px 12px rgba(0,0,0,.2)}
+header h1{margin:0;font-size:22px} header p{margin:5px 0 0;opacity:.9}
+.container{max-width:1150px;margin:auto;padding:12px}.card{background:var(--card);border-radius:18px;padding:16px;margin-bottom:14px;box-shadow:0 2px 10px rgba(15,23,42,.08)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media(max-width:800px){.grid,.grid3,.grid4{grid-template-columns:1fr} header h1{font-size:18px}}
+input,select,button,textarea{width:100%;padding:12px;margin-top:8px;border-radius:12px;border:1px solid #cbd5e1;font-size:15px} textarea{min-height:72px}
+button{background:var(--accent);color:white;font-weight:bold;border:none;cursor:pointer}button:hover{filter:brightness(.95)}.danger{background:var(--red)}.success{background:var(--green)}.secondary{background:#334155}.light{background:#e2e8f0;color:#0f172a}
+.stat{padding:14px;border-radius:16px;background:#f8fafc;border:1px solid #e2e8f0}.stat b{font-size:22px;display:block;margin-top:6px}.income{color:var(--green)}.expense{color:var(--red)}
+.entry{background:#fff;border-radius:16px;padding:13px;margin-top:10px;border-left:6px solid #1e40af;box-shadow:0 1px 6px rgba(0,0,0,.06)}.entry.exp{border-left-color:var(--red)}.entry.inc{border-left-color:var(--green)}
+.entry-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.entry small{color:var(--muted)}.actions{display:flex;gap:8px;margin-top:8px}.actions button{padding:9px;margin-top:0}
+.preview{width:95px;max-height:95px;object-fit:cover;border-radius:12px;margin-top:10px;cursor:pointer;border:1px solid #ddd}.modal{display:none;position:fixed;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,.92);justify-content:center;align-items:center;z-index:9999}.modal img{max-width:95%;max-height:95%}.close{position:absolute;top:20px;right:25px;color:white;font-size:42px;cursor:pointer}
+.watermark{position:fixed;top:48%;left:50%;transform:translate(-50%,-50%);font-size:100px;opacity:.025;pointer-events:none;font-weight:bold}.toolbar{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}@media(max-width:800px){.toolbar{grid-template-columns:1fr 1fr}}
+table{width:100%;border-collapse:collapse;margin-top:10px;background:white}th,td{border:1px solid #cbd5e1;padding:9px;text-align:left}th{background:#e2e8f0}.print-only{display:none}.note{color:var(--muted);font-size:14px}.badge{display:inline-block;padding:4px 8px;border-radius:999px;background:#e2e8f0;margin:2px;font-size:12px}
+@media print{header,.no-print,.actions,button,input,select,textarea,.preview{display:none!important}.print-only{display:block}.card{box-shadow:none;border:1px solid #bbb;break-inside:avoid}body{background:white}.container{max-width:none}.watermark{opacity:.05}.entry{break-inside:avoid}}
 </style>
 </head>
 <body>
-
 <div class="watermark">ΠΟΥΕΦ</div>
-
-<header>
-<h1>ΠΟΥΕΦ - Οικονομική Διαχείριση V7</h1>
-</header>
-
+<header><h1>ΠΟΥΕΦ - Οικονομική Διαχείριση V8</h1><p>Backup / Restore • Μεταφορά Έτους • Απολογισμός • Προϋπολογισμός • PDF</p></header>
 <div class="container">
 
+<div class="card no-print">
+<h2>⚙️ Ρυθμίσεις Έτους & Backup</h2>
+<div class="grid4">
+<div><label>Έτος χρήσης</label><input type="number" id="yearInput" min="2000" max="2100"></div>
+<div><label>Τραπεζικό υπόλοιπο έναρξης</label><input type="number" id="bank" step="0.01"></div>
+<div><label>Ταμειακό υπόλοιπο έναρξης</label><input type="number" id="cash" step="0.01"></div>
+<div><label>Περιγραφή μεταφοράς</label><input type="text" id="carryDesc" value="Μεταφορά υπολοίπου προηγούμενου έτους"></div>
+</div>
+<div class="toolbar" style="margin-top:10px">
+<button class="success" onclick="exportJSON()">⬇️ Export JSON</button>
+<button class="secondary" onclick="document.getElementById('importFile').click()">⬆️ Import JSON</button>
+<button onclick="carryToNextYear()">➡️ Μεταφορά στο επόμενο έτος</button>
+<button class="danger" onclick="resetAll()">🧹 Πλήρης επαναφορά</button>
+</div>
+<input id="importFile" type="file" accept="application/json" style="display:none" onchange="importJSON(event)">
+<p class="note">Η αποθήκευση γίνεται τοπικά στη συσκευή με ασφαλή έλεγχο δομής δεδομένων. Κράτα συχνά backup JSON.</p>
+</div>
+
+<div class="grid3">
+<div class="card stat">Σύνολο Εσόδων <b class="income" id="totalIncome">0 €</b></div>
+<div class="card stat">Σύνολο Εξόδων <b class="expense" id="totalExpense">0 €</b></div>
+<div class="card stat">Καθαρό Υπόλοιπο <b id="netBalance">0 €</b></div>
+</div>
+
 <div class="grid">
-<div class="card">
-<h3>🏦 Τραπεζικό Υπόλοιπο</h3>
-<input type="number" id="bank">
-</div>
-
-<div class="card">
-<h3>💵 Ταμειακό Υπόλοιπο</h3>
-<input type="number" id="cash">
-</div>
-</div>
-
-<div class="card">
+<div class="card no-print">
 <h2>🟢 Καταχώρηση Εσόδου</h2>
-
-<select id="incomeCategory">
-<option>Συνδρομές Μελών</option>
-<option>Τόκοι Τράπεζας</option>
-<option>Λοιπά Έσοδα</option>
-</select>
-
-<input type="date" id="incomeDate">
-<input type="text" id="incomeDesc" placeholder="Περιγραφή">
-<input type="number" id="incomeAmount" placeholder="Ποσό">
-
-<button onclick="addIncome()">Καταχώρηση</button>
+<select id="incomeCategory"><option>Συνδρομές Μελών</option><option>Τόκοι Τράπεζας</option><option>Μεταφορά Υπολοίπου</option><option>Λοιπά Έσοδα</option></select>
+<input type="date" id="incomeDate"><input type="text" id="incomeDesc" placeholder="Περιγραφή"><input type="number" id="incomeAmount" step="0.01" placeholder="Ποσό">
+<input type="file" id="incomeFile" accept="image/*"><button class="success" onclick="addIncome()">Καταχώρηση Εσόδου</button>
 </div>
-
-<div class="card">
+<div class="card no-print">
 <h2>🔴 Καταχώρηση Εξόδου</h2>
+<select id="expenseCategory"><option>Συνεδριάσεις - Μετακινήσεις - Διαμονές Δ.Σ.</option><option>Νομικός Σύμβουλος</option><option>Ταχυδρομείο - Courier</option><option>ΑΔΕΔΥ</option><option>Λογιστής</option><option>Δημόσιες Σχέσεις</option><option>Εκτυπώσεις</option><option>Γραφική Ύλη</option><option>Internet / Hosting</option><option>Τραπεζικά Έξοδα</option><option>Λοιπά Έξοδα</option></select>
+<input type="date" id="expenseDate"><input type="text" id="expenseDesc" placeholder="Περιγραφή"><input type="number" id="expenseAmount" step="0.01" placeholder="Ποσό"><input type="file" id="expenseFile" accept="image/*"><button class="danger" onclick="addExpense()">Καταχώρηση Εξόδου</button>
+</div>
+</div>
 
-<select id="expenseCategory">
-<option>Συνεδριάσεις - Μετακινήσεις - Διαμονές Δ.Σ.</option>
-<option>Νομικός Σύμβουλος</option>
-<option>Ταχυδρομείο - Courier</option>
-<option>ΑΔΕΔΥ</option>
-<option>Λογιστής</option>
-<option>Δημόσιες Σχέσεις</option>
-<option>Εκτυπώσεις</option>
-<option>Γραφική Ύλη</option>
-<option>Internet / Hosting</option>
-<option>Τραπεζικά Έξοδα</option>
-<option>Λοιπά Έξοδα</option>
-</select>
-
-<input type="date" id="expenseDate">
-<input type="text" id="expenseDesc" placeholder="Περιγραφή">
-<input type="number" id="expenseAmount" placeholder="Ποσό">
-<input type="file" id="expenseFile" accept="image/*">
-
-<button onclick="addExpense()">Καταχώρηση</button>
+<div class="card no-print">
+<h2>📊 Προϋπολογισμός</h2>
+<div class="grid3"><input type="text" id="budgetCategory" placeholder="Κατηγορία"><select id="budgetType"><option>Έσοδο</option><option>Έξοδο</option></select><input type="number" id="budgetAmount" step="0.01" placeholder="Προβλεπόμενο ποσό"></div>
+<button onclick="addBudget()">Προσθήκη στον Προϋπολογισμό</button>
 </div>
 
 <div class="card">
-<h2>📋 Κινήσεις</h2>
-<div id="entries"></div>
+<h2>📋 Κινήσεις</h2><div id="entries"></div>
 </div>
 
 <div class="card">
-<h2>📄 PDF Συνεδρίου</h2>
-<p>• Ετήσιος Απολογισμός</p>
-<p>• Προϋπολογισμός</p>
-<p>• Αναλυτικά Έσοδα / Έξοδα</p>
-<button onclick="window.print()">Εκτύπωση PDF</button>
+<h2>📄 Ετήσιος Απολογισμός</h2><div id="report"></div>
 </div>
 
+<div class="card">
+<h2>📌 Προϋπολογισμός - Σύγκριση</h2><div id="budgetReport"></div>
 </div>
 
-<div class="modal" id="modal">
-<span class="close" onclick="closeModal()">&times;</span>
-<img id="modalImg">
+<div class="card no-print">
+<h2>🖨️ Εκτύπωση PDF</h2><p>Βελτιωμένη μορφή για συνέδρια και PDF.</p><button onclick="window.print()">Εκτύπωση / Αποθήκευση PDF</button></div>
 </div>
 
+<div class="modal" id="modal"><span class="close" onclick="closeModal()">&times;</span><img id="modalImg"></div>
 <script>
-let items = JSON.parse(localStorage.getItem('pouefv7') || '[]');
-
-function save(){
-localStorage.setItem('pouefv7', JSON.stringify(items));
-render();
-}
-
-function addIncome(){
-items.push({
-type:'Έσοδο',
-category:incomeCategory.value,
-date:incomeDate.value,
-desc:incomeDesc.value,
-amount:incomeAmount.value,
-image:null
-});
-save();
-}
-
-function addExpense(){
-
-const file = expenseFile.files[0];
-
-const finish=(img)=>{
-items.push({
-type:'Έξοδο',
-category:expenseCategory.value,
-date:expenseDate.value,
-desc:expenseDesc.value,
-amount:expenseAmount.value,
-image:img
-});
-save();
-};
-
-if(file){
-const r = new FileReader();
-r.onload = e => finish(e.target.result);
-r.readAsDataURL(file);
-}else{
-finish(null);
-}
-}
-
-function openModal(src){
-modal.style.display='flex';
-modalImg.src=src;
-}
-
-function closeModal(){
-modal.style.display='none';
-}
-
-function render(){
-
-entries.innerHTML='';
-
-items.forEach((x,i)=>{
-
-entries.innerHTML += `
-<div class="entry">
-<b>${x.type}</b><br>
-${x.date}<br>
-${x.category}<br>
-${x.desc}<br>
-<b>${x.amount} €</b><br>
-
-${x.image ? `<img class="preview" src="${x.image}" onclick='openModal(${JSON.stringify(x.image)})'>` : ''}
-
-</div>
-`;
-
-});
-
-}
-
-render();
+const KEY='pouef_v8_data';
+let data={year:new Date().getFullYear(),bank:0,cash:0,items:[],budget:[]};
+function money(n){return (Number(n)||0).toLocaleString('el-GR',{minimumFractionDigits:2,maximumFractionDigits:2})+' €'}
+function today(){return new Date().toISOString().slice(0,10)}
+function load(){try{const raw=localStorage.getItem(KEY)||localStorage.getItem('pouefv7'); if(raw){const parsed=JSON.parse(raw); if(Array.isArray(parsed)) data.items=parsed; else data={...data,...parsed};}}catch(e){alert('Σφάλμα φόρτωσης δεδομένων')} yearInput.value=data.year; bank.value=data.bank||0; cash.value=data.cash||0; incomeDate.value=today(); expenseDate.value=today(); render();}
+function persist(){data.year=Number(yearInput.value)||new Date().getFullYear(); data.bank=Number(bank.value)||0; data.cash=Number(cash.value)||0; localStorage.setItem(KEY,JSON.stringify(data)); render();}
+['yearInput','bank','cash'].forEach(id=>setTimeout(()=>document.getElementById(id).addEventListener('input',persist),0));
+function readImg(file,cb){if(!file)return cb(null); if(!file.type.startsWith('image/')){alert('Επιτρέπονται μόνο εικόνες.');return} const r=new FileReader(); r.onload=e=>cb(e.target.result); r.readAsDataURL(file)}
+function addItem(type,cat,date,desc,amount,img){amount=Number(amount); if(!date||!desc||!amount){alert('Συμπλήρωσε ημερομηνία, περιγραφή και ποσό.');return} data.items.push({id:crypto.randomUUID?crypto.randomUUID():String(Date.now()),type,category:cat,date,desc,amount,image:img,year:Number(yearInput.value)}); persist();}
+function addIncome(){readImg(incomeFile.files[0],img=>{addItem('Έσοδο',incomeCategory.value,incomeDate.value,incomeDesc.value,incomeAmount.value,img); incomeDesc.value=''; incomeAmount.value=''; incomeFile.value='';})}
+function addExpense(){readImg(expenseFile.files[0],img=>{addItem('Έξοδο',expenseCategory.value,expenseDate.value,expenseDesc.value,expenseAmount.value,img); expenseDesc.value=''; expenseAmount.value=''; expenseFile.value='';})}
+function del(id){if(confirm('Να διαγραφεί η εγγραφή;')){data.items=data.items.filter(x=>x.id!==id);persist();}}
+function openModal(src){modal.style.display='flex';modalImg.src=src} function closeModal(){modal.style.display='none'}
+function byYear(){const y=Number(yearInput.value);return data.items.filter(x=>(x.year||y)===y)}
+function sums(items){return items.reduce((a,x)=>{if(x.type==='Έσοδο')a.inc+=Number(x.amount)||0;else a.exp+=Number(x.amount)||0;a.cat[x.category]=(a.cat[x.category]||0)+(Number(x.amount)||0)*(x.type==='Έξοδο'?-1:1);return a},{inc:0,exp:0,cat:{}})}
+function render(){const items=byYear().sort((a,b)=>String(b.date).localeCompare(String(a.date))); const s=sums(items); const opening=(Number(bank.value)||0)+(Number(cash.value)||0); totalIncome.textContent=money(s.inc); totalExpense.textContent=money(s.exp); netBalance.textContent=money(opening+s.inc-s.exp); entries.innerHTML=items.length?items.map(x=>`<div class="entry ${x.type==='Έσοδο'?'inc':'exp'}"><div class="entry-head"><div><b>${x.type}</b> <span class="badge">${x.category}</span><br><small>${x.date} • Έτος ${x.year||data.year}</small><br>${escapeHtml(x.desc)}<br><b>${money(x.amount)}</b>${x.image?`<br><img class="preview" src="${x.image}" onclick='openModal(${JSON.stringify(x.image)})'>`:''}</div><div class="actions no-print"><button class="danger" onclick="del('${x.id}')">Διαγραφή</button></div></div></div>`).join(''):'Δεν υπάρχουν κινήσεις.'; report.innerHTML=makeReport(items,s,opening); budgetReport.innerHTML=makeBudgetReport(items);}
+function escapeHtml(t){return String(t||'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]))}
+function makeReport(items,s,opening){let cats=Object.keys(s.cat).sort().map(c=>`<tr><td>${c}</td><td>${money(s.cat[c])}</td></tr>`).join(''); return `<table><tr><th>Περιγραφή</th><th>Ποσό</th></tr><tr><td>Υπόλοιπο έναρξης</td><td>${money(opening)}</td></tr><tr><td>Σύνολο εσόδων</td><td>${money(s.inc)}</td></tr><tr><td>Σύνολο εξόδων</td><td>${money(s.exp)}</td></tr><tr><th>Τελικό καθαρό υπόλοιπο</th><th>${money(opening+s.inc-s.exp)}</th></tr></table><h3>Σύνολα ανά κατηγορία</h3><table><tr><th>Κατηγορία</th><th>Καθαρό ποσό</th></tr>${cats||'<tr><td colspan="2">Δεν υπάρχουν δεδομένα</td></tr>'}</table>`}
+function addBudget(){const cat=budgetCategory.value.trim(); const amount=Number(budgetAmount.value); if(!cat||!amount){alert('Συμπλήρωσε κατηγορία και ποσό.');return} data.budget.push({id:String(Date.now()),year:Number(yearInput.value),category:cat,type:budgetType.value,amount}); budgetCategory.value=''; budgetAmount.value=''; persist();}
+function removeBudget(id){data.budget=data.budget.filter(x=>x.id!==id);persist()}
+function makeBudgetReport(items){const y=Number(yearInput.value); const rows=(data.budget||[]).filter(b=>b.year===y).map(b=>{const actual=items.filter(x=>x.category===b.category&&x.type===b.type).reduce((a,x)=>a+Number(x.amount||0),0); const diff=actual-Number(b.amount||0); return `<tr><td>${b.type}</td><td>${b.category}</td><td>${money(b.amount)}</td><td>${money(actual)}</td><td>${money(diff)}</td><td class="no-print"><button class="danger" onclick="removeBudget('${b.id}')">Χ</button></td></tr>`}).join(''); return `<table><tr><th>Τύπος</th><th>Κατηγορία</th><th>Πρόβλεψη</th><th>Πραγματικό</th><th>Διαφορά</th><th class="no-print">Ενέργεια</th></tr>${rows||'<tr><td colspan="6">Δεν υπάρχει προϋπολογισμός</td></tr>'}</table>`}
+function exportJSON(){persist(); const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`POUEF_V8_Backup_${data.year}.json`; a.click(); URL.revokeObjectURL(a.href)}
+function importJSON(e){const file=e.target.files[0]; if(!file)return; const r=new FileReader(); r.onload=ev=>{try{const parsed=JSON.parse(ev.target.result); if(!parsed||typeof parsed!=='object'||!Array.isArray(parsed.items)) throw new Error(); data={year:new Date().getFullYear(),bank:0,cash:0,budget:[],...parsed}; persist(); alert('Η επαναφορά ολοκληρώθηκε.')}catch(_){alert('Μη έγκυρο αρχείο backup.')}}; r.readAsText(file)}
+function resetAll(){if(confirm('Θα διαγραφούν όλα τα δεδομένα από αυτή τη συσκευή. Συνέχεια;')){localStorage.removeItem(KEY); data={year:new Date().getFullYear(),bank:0,cash:0,items:[],budget:[]}; load();}}
+function carryToNextYear(){const y=Number(yearInput.value); const s=sums(byYear()); const final=(Number(bank.value)||0)+(Number(cash.value)||0)+s.inc-s.exp; yearInput.value=y+1; data.year=y+1; data.bank=final; data.cash=0; data.items.push({id:String(Date.now()),type:'Έσοδο',category:'Μεταφορά Υπολοίπου',date:`${y+1}-01-01`,desc:carryDesc.value||'Μεταφορά υπολοίπου προηγούμενου έτους',amount:final,image:null,year:y+1}); persist(); alert('Η μεταφορά στο επόμενο έτος ολοκληρώθηκε.');}
+load();
 </script>
-
 </body>
 </html>
