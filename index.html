@@ -5,31 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ΠΟΥΕΦ - Ταμείο</title>
 <style>
-body{font-family:Arial;margin:0;background:#eef2f7}
+body{font-family:Arial;background:#eef2f7;margin:0}
 header{background:#0f172a;color:#fff;padding:20px;text-align:center}
 .container{max-width:1300px;margin:auto;padding:20px}
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px;margin-bottom:20px}
 .card{padding:20px;border-radius:18px;color:white}
 .blue{background:#2563eb}.yellow{background:#ca8a04}.green{background:#16a34a}.red{background:#dc2626}
-.section{background:white;padding:20px;border-radius:18px;margin-bottom:20px;box-shadow:0 2px 10px rgba(0,0,0,.1)}
+.section{background:#fff;padding:20px;border-radius:18px;margin-bottom:20px;box-shadow:0 2px 10px rgba(0,0,0,.1)}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 @media(max-width:900px){.grid{grid-template-columns:1fr}}
 input,select,button{width:100%;padding:12px;margin-top:10px;border-radius:10px;border:1px solid #ccc;box-sizing:border-box}
 button{background:#1e3a8a;color:white;border:none;font-weight:bold}
 table{width:100%;border-collapse:collapse;margin-top:15px}
-th,td{padding:10px;border-bottom:1px solid #ddd;font-size:14px}
+th,td{padding:10px;border-bottom:1px solid #ddd}
 th{background:#1e3a8a;color:white}
-.watermark{
-position:fixed;
-top:45%;
-left:50%;
-transform:translate(-50%,-50%);
-font-size:140px;
-opacity:.04;
-pointer-events:none;
-font-weight:bold;
-}
-img{max-width:70px;border-radius:8px}
+.watermark{position:fixed;top:45%;left:50%;transform:translate(-50%,-50%);font-size:150px;opacity:.04;pointer-events:none;font-weight:bold}
+.preview{max-width:70px;border-radius:8px}
 </style>
 </head>
 <body>
@@ -42,25 +33,37 @@ img{max-width:70px;border-radius:8px}
 
 <div class="container">
 
+<div class="section">
+<h2>Ρυθμίσεις Υπολοίπων</h2>
+
+<label>Τραπεζικό Υπόλοιπο</label>
+<input type="number" id="bankInput" value="0">
+
+<label>Ταμειακό Υπόλοιπο</label>
+<input type="number" id="cashInput" value="0">
+
+<button onclick="saveBalances()">Αποθήκευση Υπολοίπων</button>
+</div>
+
 <div class="cards">
 <div class="card blue">
 <h3>Τραπεζικό Υπόλοιπο</h3>
-<h2 id="bankBalance">0,00 €</h2>
+<h2 id="bankCard">0,00 €</h2>
 </div>
 
 <div class="card yellow">
 <h3>Ταμειακό Υπόλοιπο</h3>
-<h2 id="cashBalance">0,00 €</h2>
+<h2 id="cashCard">0,00 €</h2>
 </div>
 
 <div class="card green">
 <h3>Έσοδα</h3>
-<h2 id="incomeTotal">0,00 €</h2>
+<h2 id="incomeCard">0,00 €</h2>
 </div>
 
 <div class="card red">
 <h3>Έξοδα</h3>
-<h2 id="expenseTotal">0,00 €</h2>
+<h2 id="expenseCard">0,00 €</h2>
 </div>
 </div>
 
@@ -80,7 +83,7 @@ img{max-width:70px;border-radius:8px}
 <input type="text" id="incomeDesc" placeholder="Περιγραφή">
 <input type="number" id="incomeAmount" placeholder="Ποσό">
 
-<button onclick="addIncome()">Αποθήκευση Εσόδου</button>
+<button onclick="addIncome()">Καταχώρηση Εσόδου</button>
 </div>
 
 <div class="section">
@@ -105,7 +108,7 @@ img{max-width:70px;border-radius:8px}
 <input type="number" id="expenseAmount" placeholder="Ποσό">
 <input type="file" id="expenseFile" accept="image/*">
 
-<button onclick="addExpense()">Αποθήκευση Εξόδου</button>
+<button onclick="addExpense()">Καταχώρηση Εξόδου</button>
 </div>
 
 </div>
@@ -126,135 +129,136 @@ img{max-width:70px;border-radius:8px}
 <th>Παραστατικό</th>
 </tr>
 </thead>
-
 <tbody id="tableBody"></tbody>
 </table>
 </div>
 
 <div class="section">
-<h2>Ετήσιος Απολογισμός Συνεδρίου</h2>
-
+<h2>📎 Παραστατικά</h2>
 <table>
-<tr><th>Κατηγορία</th><th>Σύνολο</th></tr>
-<tr><td>Συνολικά Έσοδα</td><td id="reportIncome">0,00 €</td></tr>
-<tr><td>Συνολικά Έξοδα</td><td id="reportExpense">0,00 €</td></tr>
+<thead>
+<tr>
+<th>Ημερομηνία</th>
+<th>Κατηγορία</th>
+<th>Ποσό</th>
+<th>Προβολή</th>
+</tr>
+</thead>
+<tbody id="receiptBody"></tbody>
 </table>
-
-</div>
-
-<div class="section">
-<h2>Προϋπολογισμός</h2>
-
-<table>
-<tr><th>Προβλεπόμενα Έσοδα</th><th>Προβλεπόμενα Έξοδα</th></tr>
-<tr><td>Συνδρομές Μελών</td><td>Δαπάνες Δ.Σ.</td></tr>
-<tr><td>Τόκοι Τράπεζας</td><td>Λειτουργικά Έξοδα</td></tr>
-</table>
-
 </div>
 
 </div>
 
 <script>
-let transactions = [];
+let transactions=[];
 
 function euro(n){
 return Number(n).toLocaleString('el-GR') + ' €';
 }
 
-function saveData(){
-localStorage.setItem('pouefData',JSON.stringify(transactions));
+function saveBalances(){
+localStorage.setItem('bankBalance',document.getElementById('bankInput').value);
+localStorage.setItem('cashBalance',document.getElementById('cashInput').value);
 render();
-}
-
-function loadData(){
-const saved = localStorage.getItem('pouefData');
-if(saved){
-transactions = JSON.parse(saved);
-render();
-}
+alert('Αποθηκεύτηκαν τα υπόλοιπα');
 }
 
 function addIncome(){
-const category=document.getElementById('incomeCategory').value;
-const date=document.getElementById('incomeDate').value;
-const desc=document.getElementById('incomeDesc').value;
-const amount=parseFloat(document.getElementById('incomeAmount').value);
-
-if(!date || !desc || !amount){alert('Συμπλήρωσε όλα τα πεδία');return;}
-
-transactions.push({
+const t={
 type:'Έσοδο',
-category,date,desc,amount,image:null
-});
-
-saveData();
+category:incomeCategory.value,
+date:incomeDate.value,
+desc:incomeDesc.value,
+amount:parseFloat(incomeAmount.value),
+image:null
+};
+transactions.push(t);
+save();
 }
 
 function addExpense(){
-const category=document.getElementById('expenseCategory').value;
-const date=document.getElementById('expenseDate').value;
-const desc=document.getElementById('expenseDesc').value;
-const amount=parseFloat(document.getElementById('expenseAmount').value);
-const file=document.getElementById('expenseFile').files[0];
+const file=expenseFile.files[0];
 
-if(!date || !desc || !amount){alert('Συμπλήρωσε όλα τα πεδία');return;}
+const saveExpense=(img)=>{
+transactions.push({
+type:'Έξοδο',
+category:expenseCategory.value,
+date:expenseDate.value,
+desc:expenseDesc.value,
+amount:parseFloat(expenseAmount.value),
+image:img
+});
+save();
+}
 
 if(file){
 const reader=new FileReader();
-reader.onload=function(e){
-transactions.push({
-type:'Έξοδο',
-category,date,desc,amount,image:e.target.result
-});
-saveData();
-}
+reader.onload=e=>saveExpense(e.target.result);
 reader.readAsDataURL(file);
 }else{
-transactions.push({
-type:'Έξοδο',
-category,date,desc,amount,image:null
-});
-saveData();
+saveExpense(null);
 }
+}
+
+function save(){
+localStorage.setItem('transactions',JSON.stringify(transactions));
+render();
 }
 
 function render(){
 
+transactions=JSON.parse(localStorage.getItem('transactions')||'[]');
+
 const table=document.getElementById('tableBody');
+const receipts=document.getElementById('receiptBody');
+
 table.innerHTML='';
+receipts.innerHTML='';
 
 let income=0;
 let expense=0;
 
-transactions.forEach(t=>{
+transactions.forEach((t,i)=>{
 
-if(t.type==='Έσοδο'){income += Number(t.amount);}
-if(t.type==='Έξοδο'){expense += Number(t.amount);}
+if(t.type==='Έσοδο') income+=Number(t.amount||0);
+if(t.type==='Έξοδο') expense+=Number(t.amount||0);
 
 table.innerHTML += `
 <tr>
-<td>${t.date}</td>
+<td>${t.date||''}</td>
 <td>${t.type}</td>
 <td>${t.category}</td>
 <td>${t.desc}</td>
+<td>${euro(t.amount||0)}</td>
+<td>${t.image ? '<img class="preview" src="'+t.image+'">' : '-'}</td>
+</tr>`;
+
+if(t.image){
+receipts.innerHTML += `
+<tr>
+<td>${t.date}</td>
+<td>${t.category}</td>
 <td>${euro(t.amount)}</td>
-<td>${t.image ? `<img src="${t.image}">` : '-'}</td>
-</tr>
-`;
+<td><a href="${t.image}" target="_blank">Προβολή</a></td>
+</tr>`;
+}
 
 });
 
-document.getElementById('incomeTotal').innerText=euro(income);
-document.getElementById('expenseTotal').innerText=euro(expense);
-document.getElementById('bankBalance').innerText=euro(income-expense);
-document.getElementById('cashBalance').innerText=euro(0);
+const bank=Number(localStorage.getItem('bankBalance')||0);
+const cash=Number(localStorage.getItem('cashBalance')||0);
 
-document.getElementById('reportIncome').innerText=euro(income);
-document.getElementById('reportExpense').innerText=euro(expense);
+bankCard.innerText=euro(bank);
+cashCard.innerText=euro(cash);
+incomeCard.innerText=euro(income);
+expenseCard.innerText=euro(expense);
+
+bankInput.value=bank;
+cashInput.value=cash;
 }
 
-loadData();
+render();
 </script>
 
 </body>
